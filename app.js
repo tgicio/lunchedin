@@ -281,16 +281,40 @@ lunchedin.addToPool = function( runCount, userID ){
 lunchedin.sendMail = function( templateID, templateModel, user_email ){
 
     if(!lunchedin.mails)
-      return;
+			return;
 
-    var client = new postmark.Client("32f51173-e5ee-4819-90aa-ad9c25c402a8");
+		const SENDGRID_API_KEY = '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'
+		const MY_TEMPLATE_ID = 'd-3748266af5a141de9cb940e4e9f90cb5'
 
-    client.sendEmailWithTemplate({
+		var sendgrid = require('sendgrid')(process.env.SENDGRID_API_KEY)
+
+		// Note the html parameter - you must have this set or you'll get an error about having no
+		// body set
+		var email = new sendgrid.Email({
+			from: 'eva@trylunchedin.com',
+			to: user_email
+		  })
+
+		email.addFilter('templates', 'enable', 1)
+		email.addFilter('templates', 'template_id', MY_TEMPLATE_ID)
+
+		sendgrid.send(email, (err, response) => {
+		  if (err) {
+			console.log(err)
+		  } else {
+			console.log('Yay! Our templated email has been sent')
+		  }
+		})
+    
+
+    //var client = new postmark.Client("32f51173-e5ee-4819-90aa-ad9c25c402a8");
+
+    /*client.sendEmailWithTemplate({
             "From": "eva@trylunchedin.com",
             "To": user_email,
             "TemplateId": templateID,
             "TemplateModel": templateModel 
-    });
+    });*/
 };
 
 /*
