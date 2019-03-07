@@ -288,8 +288,6 @@ lunchedin.sendMail = function( templateID, templateModel, user_email ){
 
 		var sendgrid = require('sendgrid')(process.env.SENDGRID_API_KEY);
 	
-		console.log("Confirmation Mail sent to ", user_email);
-
 		// Note the html parameter - you must have this set or you'll get an error about having no
 		// body set
 		var email = new sendgrid.Email({
